@@ -11,20 +11,26 @@ class Tablero:
         self.columnas = 9
         self.tablero = [[None] * self.filas for i in range(self.columnas)]
 
-    def tablero_facil(self):
+    def crear_tablero(self, tipo):  # crea tablero (tipo: facil 3 medio 4 dificil 5)
         for i in range(self.columnas):
             for j in range(self.filas):
-                self.tablero[i][j] = random.randint(1, 3)
+                self.tablero[i][j] = random.randint(1, tipo)
 
-    def tablero_intermedio(self):
-        for i in range(self.columnas):
-            for j in range(self.filas):
-                self.tablero[i][j] = random.randint(1, 4)
+    def tablero_fijo1(self):
+        self.tablero = [[1,1,1,1,1,1,1,1,1],[1,2,2,2,2,2,2,2,1],[1,2,3,3,3,3,3,2,1],[1,2,3,1,1,1,3,2,1],[1,2,3,1,2,1,3,2,1],[1,2,3,1,1,1,3,2,1],[1,2,3,3,3,3,3,2,1],[1,2,2,2,2,2,2,2,1],[1,1,1,1,1,1,1,1,1]]
+    
+    def tablero_fijo2(self):
+        self.tablero = [[4,4,4,4,1,4,4,4,4],[4,4,4,1,2,1,4,4,4],[4,4,1,2,3,2,1,4,4],[4,1,2,3,1,3,2,1,4],[1,2,3,1,2,1,3,2,1],[4,1,2,3,1,3,2,1,4],[4,4,1,2,3,2,1,4,4],[4,4,4,1,2,1,4,4,4],[4,4,4,4,1,4,4,4,4]]
 
-    def tablero_dificil(self):
-        for i in range(self.columnas):
-            for j in range(self.filas):
-                self.tablero[i][j] = random.randint(1, 5)
+    def tablero_fijo3(self):
+        FilaRandom = random.randint(0,8)
+        ColumnaRandom = random.randint(0,8)
+        self.tablero = [[1,2,1,2,1,2,1,2,1],[2,1,2,1,2,1,2,1,2],[1,2,1,2,1,2,1,2,1],[2,1,2,1,2,1,2,1,2],[1,2,1,2,1,2,1,2,1],[2,1,2,1,2,1,2,1,2],[1,2,1,2,1,2,1,2,1],[2,1,2,1,2,1,2,1,2],[1,2,1,2,1,2,1,2,1]]
+        NumActual = self.tablero[FilaRandom][ColumnaRandom]
+        if NumActual == 1:
+            self.tablero[FilaRandom][ColumnaRandom]=2
+        else:
+            self.tablero[FilaRandom][ColumnaRandom]=1
 
     def imprimir_tablero(self, puntuacion):
         print "Mejor puntuación: " + str(puntuacion)
@@ -58,7 +64,6 @@ class Puntuaciones:
             txt = '\n'.join(lista)
             f = open("puntuaciones.txt", "w")
             f.write(txt)
-        print "Puntuaciones borradas\n\n"
         self.leer = open("puntuaciones.txt", "r")
         self.escribir = open("puntuaciones.txt", "a")
         self.tabla_puntuaciones = []
@@ -91,11 +96,10 @@ class Puntuaciones:
         f.write(txt)
 
     def imprimir_puntuaciones(self, dificultad):  # 0 facil, 1 medio ... 6 todas
-        self.leer = open("puntuaciones.txt", "r")
         if dificultad != 6:
             return self.tabla_puntuaciones[dificultad]
         else:
-            print "MEJORES PUNTUACIONES"
+            print "MEJORES PUNTUACIONES\n"
             print "Facil: " + str(self.tabla_puntuaciones[0])
             print "Intermedio: " + str(self.tabla_puntuaciones[1])
             print "Difícil: " + str(self.tabla_puntuaciones[2])
@@ -107,7 +111,7 @@ class Puntuaciones:
 def tablero_facil():
     tablero = Tablero()
     puntuaciones = Puntuaciones()
-    tablero.tablero_facil()
+    tablero.crear_tablero(3)
     puntuaciones.get_puntuaciones()
     puntuacion = puntuaciones.imprimir_puntuaciones(0)
     tablero.imprimir_tablero(puntuacion)
@@ -117,7 +121,7 @@ def tablero_facil():
 def tablero_intermedio():
     tablero = Tablero()
     puntuaciones = Puntuaciones()
-    tablero.tablero_intermedio()
+    tablero.crear_tablero(4)
     puntuaciones.get_puntuaciones()
     puntuacion = puntuaciones.imprimir_puntuaciones(1)
     tablero.imprimir_tablero(puntuacion)
@@ -127,7 +131,7 @@ def tablero_intermedio():
 def tablero_dificil():
     tablero = Tablero()
     puntuaciones = Puntuaciones()
-    tablero.tablero_dificil()
+    tablero.crear_tablero(5)
     puntuaciones.get_puntuaciones()
     puntuacion = puntuaciones.imprimir_puntuaciones(2)
     tablero.imprimir_tablero(puntuacion)
@@ -154,13 +158,38 @@ def tablero_fijo():
             break
         except ValueError:
             pass
-    menu = {0: menu_principal}
-    '''
-        1: tres_colores,
-        2: cuatro_colores,
-        3: dos_colores}'''
+    menu = {0: menu_principal,
+        1: tablero_fijo1,
+        2: tablero_fijo2,
+        3: tablero_fijo3}
     menu[num]()
 
+def tablero_fijo1():
+    tablero = Tablero()
+    puntuaciones = Puntuaciones()
+    tablero.tablero_fijo1()
+    puntuaciones.get_puntuaciones()
+    puntuacion = puntuaciones.imprimir_puntuaciones(3)
+    tablero.imprimir_tablero(puntuacion)
+    tablero.jugar(puntuacion)
+
+def tablero_fijo2():
+    tablero = Tablero()
+    puntuaciones = Puntuaciones()
+    tablero.tablero_fijo2()
+    puntuaciones.get_puntuaciones()
+    puntuacion = puntuaciones.imprimir_puntuaciones(4)
+    tablero.imprimir_tablero(puntuacion)
+    tablero.jugar(puntuacion)
+
+def tablero_fijo3():
+    tablero = Tablero()
+    puntuaciones = Puntuaciones()
+    tablero.tablero_fijo3()
+    puntuaciones.get_puntuaciones()
+    puntuacion = puntuaciones.imprimir_puntuaciones(5)
+    tablero.imprimir_tablero(puntuacion)
+    tablero.jugar(puntuacion)
 
 def mejores_puntuaciones():
     puntuaciones = Puntuaciones()
