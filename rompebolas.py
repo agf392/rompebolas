@@ -17,41 +17,84 @@ class Tablero:
                 self.tablero[i][j] = random.randint(1, tipo)
 
     def tablero_fijo1(self):
-        self.tablero = [[1,1,1,1,1,1,1,1,1],[1,2,2,2,2,2,2,2,1],[1,2,3,3,3,3,3,2,1],[1,2,3,1,1,1,3,2,1],[1,2,3,1,2,1,3,2,1],[1,2,3,1,1,1,3,2,1],[1,2,3,3,3,3,3,2,1],[1,2,2,2,2,2,2,2,1],[1,1,1,1,1,1,1,1,1]]
-    
+        self.tablero = [[1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 2, 2, 2, 2, 2, 2, 2, 1], [1, 2, 3, 3, 3, 3, 3, 2, 1],
+                        [1, 2, 3, 1, 1, 1, 3, 2, 1], [1, 2, 3, 1, 2, 1, 3, 2, 1], [1, 2, 3, 1, 1, 1, 3, 2, 1],
+                        [1, 2, 3, 3, 3, 3, 3, 2, 1], [1, 2, 2, 2, 2, 2, 2, 2, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1]]
+
     def tablero_fijo2(self):
-        self.tablero = [[4,4,4,4,1,4,4,4,4],[4,4,4,1,2,1,4,4,4],[4,4,1,2,3,2,1,4,4],[4,1,2,3,1,3,2,1,4],[1,2,3,1,2,1,3,2,1],[4,1,2,3,1,3,2,1,4],[4,4,1,2,3,2,1,4,4],[4,4,4,1,2,1,4,4,4],[4,4,4,4,1,4,4,4,4]]
+        self.tablero = [[4, 4, 4, 4, 1, 4, 4, 4, 4], [4, 4, 4, 1, 2, 1, 4, 4, 4], [4, 4, 1, 2, 3, 2, 1, 4, 4],
+                        [4, 1, 2, 3, 1, 3, 2, 1, 4], [1, 2, 3, 1, 2, 1, 3, 2, 1], [4, 1, 2, 3, 1, 3, 2, 1, 4],
+                        [4, 4, 1, 2, 3, 2, 1, 4, 4], [4, 4, 4, 1, 2, 1, 4, 4, 4], [4, 4, 4, 4, 1, 4, 4, 4, 4]]
 
     def tablero_fijo3(self):
-        FilaRandom = random.randint(0,8)
-        ColumnaRandom = random.randint(0,8)
-        self.tablero = [[1,2,1,2,1,2,1,2,1],[2,1,2,1,2,1,2,1,2],[1,2,1,2,1,2,1,2,1],[2,1,2,1,2,1,2,1,2],[1,2,1,2,1,2,1,2,1],[2,1,2,1,2,1,2,1,2],[1,2,1,2,1,2,1,2,1],[2,1,2,1,2,1,2,1,2],[1,2,1,2,1,2,1,2,1]]
+        FilaRandom = random.randint(0, 8)
+        ColumnaRandom = random.randint(0, 8)
+        self.tablero = [[1, 2, 1, 2, 1, 2, 1, 2, 1], [2, 1, 2, 1, 2, 1, 2, 1, 2], [1, 2, 1, 2, 1, 2, 1, 2, 1],
+                        [2, 1, 2, 1, 2, 1, 2, 1, 2], [1, 2, 1, 2, 1, 2, 1, 2, 1], [2, 1, 2, 1, 2, 1, 2, 1, 2],
+                        [1, 2, 1, 2, 1, 2, 1, 2, 1], [2, 1, 2, 1, 2, 1, 2, 1, 2], [1, 2, 1, 2, 1, 2, 1, 2, 1]]
         NumActual = self.tablero[FilaRandom][ColumnaRandom]
         if NumActual == 1:
-            self.tablero[FilaRandom][ColumnaRandom]=2
+            self.tablero[FilaRandom][ColumnaRandom] = 2
         else:
-            self.tablero[FilaRandom][ColumnaRandom]=1
+            self.tablero[FilaRandom][ColumnaRandom] = 1
 
     def imprimir_tablero(self, puntuacion):
         print "Mejor puntuación: " + str(puntuacion)
         print"  ",
         for i in range(self.columnas):
-            print(str("")+str(i+1)),
+            print(str("") + str(i + 1)),
         print ""
-        for i in range(self.columnas+2):
+        for i in range(self.columnas + 2):
             print(str("-")),
         for i in range(self.columnas):
-            print(str("\n")+str(self.filas-i)+str("|")),
+            print(str("\n") + str(self.filas - i) + str("|")),
             for j in range(self.filas):
                 print self.tablero[i][j],
 
-    def jugar(self, puntuacion):
+    def jugar(self,puntuacion):
+        num = -1
+        self.movcolumna = -1
+        self.movfila = -1
+        movcolumna = self.movcolumna
+        movfila = self.movfila
         while True:
-            movimiento = raw_input("\n\nIntroduce tu movimiento:")
-            if str(movimiento) != "00":
-                self.imprimir_tablero(puntuacion)
-            else:
-                menu_principal()
+            try:
+                movcolumna = (raw_input("\nIntroduce el número de columna:\n"))
+                while int(movcolumna) < 0 or int(movcolumna) > 9:
+                    print "Has introducido un valor no válido\n"
+                    movcolumna = raw_input("Introduce un número entre 0 y 9 para la columna:\n")
+                num = int(movcolumna)
+                movfila = (raw_input("Introduce el número de fila:\n"))
+                while int(movfila) < 0 or int(movfila) > 9:
+                    print "Has introducido un valor no válido\n"
+                    movfila = raw_input("Introduce un número entre 0 y 9 para la fila:\n")
+                num = int(movfila)
+                break
+            except ValueError:
+                print "Has introducido un valor no válido"
+        self.comprobar_posicion(movfila,movcolumna)
+
+    def adyacentes(self, fil, col, num):
+        if fil - 1 >= 0 and self.tablero[fil - 1][col] == num:
+            return True
+        if fil + 1 < len(self.tablero) and self.tablero[fil + 1][col] == num:
+            return True
+        if col - 1 >= 0 and self.tablero[fil][col - 1] == num:
+            return True
+        if col + 1 < len(self.tablero) and self.tablero[fil][col + 1] == num:
+            return True
+        return False
+
+    def comprobar_posicion(self, movfil, movcol):
+        tieneady = False
+        filaelegida = len(self.tablero) - int(movfil)
+        colelegida = int(movcol) - 1
+        numelegido = self.tablero[filaelegida][colelegida]
+        if numelegido == 0:
+            print "No puedes seleccionar esa casilla"
+        else:
+            tieneady = self.adyacentes(filaelegida, colelegida, numelegido)
+            print tieneady
 
 
 class Puntuaciones:
@@ -88,7 +131,7 @@ class Puntuaciones:
             if not linea:
                 break
         if puntuacion > int(self.tabla_puntuaciones[dificultad]):
-            self.tabla_puntuaciones[dificultad] = str(puntuacion)+str("\n")
+            self.tabla_puntuaciones[dificultad] = str(puntuacion) + str("\n")
         else:
             pass
         txt = ''.join(self.tabla_puntuaciones)
@@ -139,8 +182,8 @@ def tablero_dificil():
 
 
 def tablero_fijo():
+    num = -1
     while True:
-        num = -1
         try:
             print "1. Cuadrado con 3 colores" \
                   "\n2. Rombo con 4 colores" \
@@ -159,10 +202,11 @@ def tablero_fijo():
         except ValueError:
             pass
     menu = {0: menu_principal,
-        1: tablero_fijo1,
-        2: tablero_fijo2,
-        3: tablero_fijo3}
+            1: tablero_fijo1,
+            2: tablero_fijo2,
+            3: tablero_fijo3}
     menu[num]()
+
 
 def tablero_fijo1():
     tablero = Tablero()
@@ -173,6 +217,7 @@ def tablero_fijo1():
     tablero.imprimir_tablero(puntuacion)
     tablero.jugar(puntuacion)
 
+
 def tablero_fijo2():
     tablero = Tablero()
     puntuaciones = Puntuaciones()
@@ -182,6 +227,7 @@ def tablero_fijo2():
     tablero.imprimir_tablero(puntuacion)
     tablero.jugar(puntuacion)
 
+
 def tablero_fijo3():
     tablero = Tablero()
     puntuaciones = Puntuaciones()
@@ -190,6 +236,7 @@ def tablero_fijo3():
     puntuacion = puntuaciones.imprimir_puntuaciones(5)
     tablero.imprimir_tablero(puntuacion)
     tablero.jugar(puntuacion)
+
 
 def mejores_puntuaciones():
     puntuaciones = Puntuaciones()
@@ -247,5 +294,6 @@ def menu_principal():
             5: mejores_puntuaciones,
             6: borrar_puntuaciones}
     menu[num]()
+
 
 menu_principal()
